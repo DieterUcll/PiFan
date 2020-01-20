@@ -1,3 +1,4 @@
+from os import path
 from sys import exit, version_info
 
 from PIL import Image, ImageDraw, ImageFont
@@ -11,6 +12,9 @@ except ImportError:
     elif version_info[0] == 3:
         exit("This library requires python3-smbus\nInstall with: sudo "
              "apt-get install python3-smbus")
+
+DIR_PATH = path.abspath(path.dirname(__file__))
+DefaultFont = (path.join(DIR_PATH, "Fonts/GothamLight.ttf"))
 
 # Fundamental Command Table
 SET_CONTRAST = 0x81
@@ -72,7 +76,9 @@ class i2c_interface:
         # Write a byte to address, register
         self.bus.write_byte_data(self.address, register, data)
 
-    def i2c_write_block(self, register=DISPLAY_START_LINE, data=[40]):
+    def i2c_write_block(self, register=DISPLAY_START_LINE, data=None):
+        if data is None:
+            data = [40]
         self.bus.write_i2c_block_data(self.address, register, data)
 
 
@@ -97,6 +103,7 @@ class SSD1306(i2c_interface):
 
     def DirImage(self, filename, size=None, cords=(0, 0)):
         """
+        :param cords: Coordinates of image on display
         :param pos: X, Y positions of paste location
         :param filename: Image file path
         :param size: The requested size in pixels, as a 2-tuple: (width,
@@ -178,7 +185,6 @@ class SSD1306(i2c_interface):
         Img_Width, Img_Height = Img_Mono.size
         pixels = Img_Mono.load()
         if Img_Width == self.Width and Img_Height == self.Height:
-            print("H")
             #  Horizontal screen
             for y in range(Img_Height):
                 for x in range(Img_Width):
@@ -187,7 +193,6 @@ class SSD1306(i2c_interface):
                     if pixels[x, y] == 0:
                         buf[x + (y // 8) * self.Width] &= ~(1 << (y % 8))
         elif Img_Width == self.Width and Img_Height == self.Height:
-            print("V")
             #  Vertical screen
             for y in range(Img_Height):
                 for x in range(Img_Width):
@@ -211,7 +216,7 @@ class SSD1306(i2c_interface):
                 self.WriteData(i_buf[j + self.Width * i])
         self.NewImage()
 
-    def PrintText(self, text, cords=(10, 5), Font="Fonts/GothamLight.ttf",
+    def PrintText(self, text, cords=(10, 5), Font=DefaultFont,
                   FontSize=14):
         """
         :param text: Text to print

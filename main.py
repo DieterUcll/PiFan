@@ -2,6 +2,10 @@ from oled_091 import SSD1306
 from subprocess import check_output
 from time import sleep
 from datetime import datetime
+from os import path
+
+DIR_PATH = path.abspath(path.dirname(__file__))
+DefaultFont = path.join(DIR_PATH, "Fonts/GothamLight.ttf")
 
 
 class RPiInfo:
@@ -45,14 +49,15 @@ def info_print():
     delay_t = 2
 
     # display.WhiteDisplay()
-    display.DirImage("Images/SB.png")
+    display.DirImage(path.join(DIR_PATH, "Images/SB.png"))
     display.DrawRect()
     display.ShowImage()
     sleep(1)
 
     while True:
         IP = info.IP_Info()
-        display.DirImage("Images/IP.png", size=(24, 24), cords=(1, 4))
+        display.DirImage(path.join(DIR_PATH, "Images/IP.png"), size=(24,
+                                                                      24), cords=(1, 4))
         display.PrintText(IP, cords=(30, 10), FontSize=14)
         display.DrawRect()
 
