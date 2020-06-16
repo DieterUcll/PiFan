@@ -6,11 +6,11 @@ The OLED display in the shield helps you to monitor the current CPU temperature.
 
 ## Steps to program the PiFan
       Open the github repository:
-            https://github.com/sbcshop/PiFan
-      Clone the repository on your Raspberry Pi. On the terminal enter:
-            git clone https://github.com/sbcshop/PiFan.git
+            *https://github.com/sbcshop/PiFan*
+      Clone the repository on your Raspberry Pi. On the terminal write:
+            *git clone https://github.com/sbcshop/PiFan.git*
       Run the program by using Python editor
-           
+            *oled_091.py*
            
           
 
