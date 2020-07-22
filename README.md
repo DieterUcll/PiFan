@@ -10,7 +10,7 @@ The OLED display in the shield helps you to monitor the current CPU temperature.
       Clone the repository on your Raspberry Pi. On the terminal write:
             *git clone https://github.com/sbcshop/PiFan.git*
       Run the program by using Python editor
-            *oled_091.py*
+            *main.py*
            
           
 
